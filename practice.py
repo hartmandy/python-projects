@@ -47,3 +47,51 @@ while True:
 
 print("Maximum is", largest)
 print("Minimum is", smallest)
+
+
+# 6.5 Write code using find() and string slicing (see section 6.10) to extract the number at the end 
+# of the line below. Convert the extracted value to a floating point number and print it out.
+text = "X-DSPAM-Confidence:    0.8475"
+pos = text.find('.')
+
+stringNum = text[pos-1:pos+5]
+print(float(stringNum))
+
+
+# Write a program that prompts for a file name, then opens that file and reads through the file, 
+# and print the contents of the file in upper case. Use the file words.txt to produce the output below.
+# You can download the sample data at http://www.py4e.com/code3/words.txt
+try:
+    fname = input("Enter file name: ")
+    fh = open(fname)
+except:
+    quit()
+    
+for line in fh:
+    str = line.rstrip()
+    print(str.upper())
+    
+
+# Write a program that prompts for a file name, then opens that file and reads through 
+# the file, looking for lines of the form: X-DSPAM-Confidence:    0.8475
+# Count these lines and extract the floating point values from each of the lines and 
+# compute the average of those values and produce an output as shown below. Do not use the 
+# sum() function or a variable named sum in your solution.
+# You can download the sample data at http://www.py4e.com/code3/mbox-short.txt when you are 
+# testing below enter mbox-short.txt as the file name.
+
+fname = input("Enter file name: ")
+fh = open(fname)
+count = 0
+total = 0
+for line in fh:
+    if not line.startswith("X-DSPAM-Confidence:"):
+        continue
+    count = count + 1
+    pos = line.find(":") + 1
+    substr = line[pos:]
+    num = float(substr)
+    total = total + num
+print("Average spam confidence: " + str(total/count))
+
+
