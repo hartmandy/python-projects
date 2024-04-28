@@ -139,3 +139,60 @@ for line in fh:
 
 
 print("There were", count, "lines in the file with From as the first word")
+
+
+
+# 9.4 Write a program to read through the mbox-short.txt and figure out who has sent the greatest number 
+# of mail messages. The program looks for 'From ' lines and takes the second word of those lines as the 
+# person who sent the mail. The program creates a Python dictionary that maps the sender's mail address 
+# to a count of the number of times they appear in the file. After the dictionary is produced, the program 
+# reads through the dictionary using a maximum loop to find the most prolific committer.
+
+name = input("Enter file:")
+if len(name) < 1:
+    name = "mbox-short.txt"
+handle = open(name)
+count = dict()
+
+for lines in handle:
+    lines = lines.rstrip()
+    if lines.startswith("From "):
+        words = lines.split()
+        word = words[1]
+        count[word] = count.get(word, 0) + 1
+
+bigcount = None
+bigword = None
+
+for word, count in count.items():
+    if bigcount is None or count > bigcount:
+        bigword = word
+        bigcount = count
+
+print(bigword, bigcount)
+
+
+# 10.2 Write a program to read through the mbox-short.txt and figure out the distribution by hour 
+# of the day for each of the messages. You can pull the hour out from the 'From ' line by finding 
+# the time and then splitting the string a second time using a colon.
+# From stephen.marquard@uct.ac.za Sat Jan  5 09:14:16 2008
+# Once you have accumulated the counts for each hour, print out the counts, sorted by hour as shown below.
+
+name = input("Enter file:")
+if len(name) < 1:
+    name = "mbox-short.txt"
+handle = open(name)
+count = dict()
+
+for line in handle:
+    if not line.startswith("From "):
+        continue
+    words = line.split()
+    time = words[5]
+    hour = time.split(":")[0]
+    count[hour] = count.get(hour, 0) + 1
+
+for k, v in sorted(count.items()):
+    print(k, v)
+
+    
